@@ -9,6 +9,9 @@ import type { WorkoutEntry } from '@/types/workout';
 import { getWorkoutEntries } from '@/lib/localStorage';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
+import { WeeklySummary } from '@/components/weekly-summary';
+import { aggregateWorkoutsByWeek } from '@/lib/workout-aggregation';
+// import type { WeeklyWorkoutReport } from '@/types/aggregations'; // Though not strictly needed in this file if only passing result
 import { Github, VenetianMask } from 'lucide-react';
 
 
@@ -66,6 +69,8 @@ export default function HomePage() {
           <WorkoutInputForm onWorkoutAdded={handleWorkoutAdded} />
           <Separator className="my-8 border-primary/20" />
           <MonthlySummary workoutEntries={workoutEntries} />
+          <Separator className="my-8 border-primary/20" />
+          <WeeklySummary aggregatedWorkouts={aggregateWorkoutsByWeek(workoutEntries)} />
           <Separator className="my-8 border-primary/20" />
           <WorkoutTable workoutEntries={workoutEntries} />
         </div>

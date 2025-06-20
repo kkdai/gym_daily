@@ -1,4 +1,3 @@
-
 'use server';
 
 /**
@@ -52,11 +51,13 @@ Your goal is to populate the following fields for each identified exercise:
 - maxHeartRate: Numeric value of maximum heart rate (e.g., "Max HR 165" becomes 165).
 
 Important parsing guidelines:
-- Analyze the entire workout log to identify distinct exercises.
-- For each exercise, extract only the metrics listed above.
-- Ignore general commentary, summaries, or personal notes (e.g., "胸部增加，肩部就舉不動了。"; "Felt strong today.") unless they are clearly part of an exercise name or provide a specific metric.
-- If an exercise line contains complex details (e.g., "跑步 20 mins (intervals: 10 mins fast, 5 mins slow, 5 mins cool down, max HR 165)"), extract the primary/overall metrics for that exercise (e.g., for the running example, runningTime would be 20, maxHeartRate 165). Focus on total duration or explicit overall figures.
+- Analyze the entire workout log to identify distinct exercises. Each exercise is usually on its own line or clearly separated.
+- For each exercise, extract only the metrics listed above (name, weight, reps, sets, runningTime, maxHeartRate).
+- Weightlifting exercises often follow a pattern like "[Exercise Name] [Weight]lb x [Reps] x [Sets]". Ensure you correctly identify reps and sets based on this structure. For example, in "胸部推舉 120lb x 8 x 7 上升", extract weight: 120, reps: 8, sets: 7. The word "上升" is a comment and should be ignored for metric extraction. Similarly, for "肩部推舉 90lb x 6 x 4", extract weight: 90, reps: 6, sets: 4.
+- Ignore general commentary, summaries, or personal notes (e.g., "胸部增加，肩部就舉不動了。"; "Felt strong today.") unless they are clearly part of an exercise name or provide a specific metric. Such commentary should not affect the extraction of numerical values for any exercise.
+- If an exercise line contains complex details for activities like running (e.g., "跑步 20 mins (intervals: 10 mins fast, 5 mins slow, 5 mins cool down, max HR 165)"), extract the primary/overall metrics for that exercise (e.g., for the running example, runningTime would be 20, maxHeartRate 165). Focus on total duration or explicit overall figures.
 - Ensure all extracted numerical values are just numbers, without units attached in the final JSON.
+- If a metric (like weight, reps, or sets) is not present for an exercise, do not include that field in the output for that exercise.
 
 Workout Log:
 {{workoutLog}}
