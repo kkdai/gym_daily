@@ -15,6 +15,6 @@ export interface WorkoutEntry {
 }
 
 export interface MonthlyTotals {
-  totalWeightLifted: number; // lbs
+  exerciseVolumes: { [exerciseName: string]: number }; // Stores total volume for each exercise
   totalRunningTime: number; // minutes
 }
