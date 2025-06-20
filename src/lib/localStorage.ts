@@ -15,19 +15,22 @@ export function getWorkoutEntries(): WorkoutEntry[] {
   }
 }
 
-export function saveWorkoutEntries(entries: WorkoutEntry[]): void {
+export function saveWorkoutEntries(entries: WorkoutEntry[]): boolean {
   if (typeof window === 'undefined') {
-    return;
+    return false;
   }
   try {
     window.localStorage.setItem(WORKOUT_STORAGE_KEY, JSON.stringify(entries));
+    return true;
   } catch (error) {
     console.error('Error saving workout entries to local storage:', error);
+    return false;
   }
 }
 
-export function addWorkoutEntry(entry: WorkoutEntry): void {
+export function addWorkoutEntry(entry: WorkoutEntry): boolean {
   const entries = getWorkoutEntries();
   const updatedEntries = [entry, ...entries]; // Add new entry to the beginning
-  saveWorkoutEntries(updatedEntries);
+  return saveWorkoutEntries(updatedEntries);
 }
+

@@ -44,13 +44,22 @@ export function WorkoutInputForm({ onWorkoutAdded }: WorkoutInputFormProps) {
         extractedExercises: (extractedData.exercises || []) as ExtractedExercise[],
       };
 
-      saveEntryToLocalStorage(newEntry);
-      onWorkoutAdded(newEntry);
-      toast({
-        title: 'Workout Logged!',
-        description: 'Your workout has been successfully saved.',
-      });
-      form.reset();
+      const successfullySaved = saveEntryToLocalStorage(newEntry);
+
+      if (successfullySaved) {
+        onWorkoutAdded(newEntry);
+        toast({
+          title: 'Workout Logged!',
+          description: 'Your workout has been successfully saved.',
+        });
+        form.reset();
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Save Failed',
+          description: 'Could not save workout to local storage. It might be full or disabled.',
+        });
+      }
     } catch (error: any) {
       console.error('Error submitting workout log:', error);
       toast({
